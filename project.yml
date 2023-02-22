@@ -1,0 +1,55 @@
+name: PokeStudy
+options:
+  postGenCommand: |
+    rm -rf Pods/
+    rm -rf Podfile.lock  
+    pod install --repo-update
+  bundleIdPrefix: br.lucasarthur7
+settings:
+  base:
+    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "1"
+    ENABLE_TESTABILITY: YES
+    IPHONEOS_DEPLOYMENT_TARGET: 16.2
+    SWIFT_VERSION: 5.3
+    ALWAYS_SEARCH_USER_PATHS: NO
+    BUILD_LIBRARY_FOR_DESTRIBUTION: YES
+    SKIP_INSTALL: NO
+    ONLY_ACTIVE_ARCH: YES
+    ENABLE_BITCODE: NO
+    PRODUCT_NAME: $(TARGET_NAME)
+
+
+targets:
+  PokeStudy:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.2"
+    sources:
+      - path: PokeStudy
+    info:
+      path: PokeStudy/SupportFiles/Info.plist
+      properties:
+        CFBundleDisplayName: PokeStudy
+        UILaunchStoryboardName: LaunchScreen
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: NO
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+             -
+              UISceneConfigurationName: "Default Configuration"
+              UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+              UISceneStoryboardFile: Main
+
+    settings:
+      base:
+        ONLY_ACTIVE_ARCH: YES
+        INFOPLIST_FILE: PokeStudy/SupportFiles/Info.plist
+        PRODUCT_BUNDLE_IDENTITY: br.lucasarthur7.pokestudy
+        CODE_SIGN_STYLE: Manual
+        EXCLUDED_ARCH(sdk=iphonesimulator*): arm64
+        DEBUG_INFOMATION_FORMAT: dwart-with-dsym
+    postBuildScripts:
+      - script: |
+                "${PODS_ROOT}/Swiftlint/swiftlint"
+        name: Swiftlint
